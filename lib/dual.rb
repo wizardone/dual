@@ -1,5 +1,11 @@
 require "dual/version"
 
 module Dual
-  # Your code goes here...
+  def dual(&block)
+
+  end
+
+  def dual_copy
+
+  end
 end
