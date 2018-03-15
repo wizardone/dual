@@ -1,5 +1,7 @@
-require "bundler/setup"
-require "dual"
+require 'bundler/setup'
+require 'dual'
+
+Dir[File.join(File.expand_path(__dir__), 'support', '**', '*.rb')].each { |file| require file }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

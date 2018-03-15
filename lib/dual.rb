@@ -1,12 +1,10 @@
 require 'dual/version'
 require 'dual/configuration_methods'
-
+require 'byebug'
 module Dual
 
-  include ConfigurationMethods
-
   def self.included(base)
-    @config = Configuration.new
+    @config = Configuration.new(base)
   end
 
   def dual(&block)
@@ -14,12 +12,15 @@ module Dual
   end
 
   def dual_copy
-
+    dup
   end
 
   class Configuration
-    def initialize
+    include ConfigurationMethods
 
+    attr_reader :object
+    def initialize(object)
+      @object = object
     end
   end
 end
