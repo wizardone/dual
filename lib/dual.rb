@@ -18,7 +18,10 @@ module Dual
   class Configuration
     include ConfigurationMethods
 
-    attr_reader :object
+    attr_reader :object,
+                :excludes,
+                :includes,
+                :association
     def initialize(object)
       @object = object
     end
