@@ -4,6 +4,7 @@ require 'dual/configuration_methods'
 module Dual
 
   def self.included(base)
+    # Set an instance variable in the base class to hold the config?
     base.extend ClassMethods
   end
 

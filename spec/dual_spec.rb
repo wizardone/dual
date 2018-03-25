@@ -8,6 +8,15 @@ RSpec.describe Dual do
   end
 
   describe '#dual_copy' do
+    it 'raises an error if no block is provided to dual' do
+      # Change to custom error
+      expect {
+        Order.new.instance_eval do
+          dual
+        end
+      }.to raise_error(NameError)
+    end
+
     it 'dual copies an object without options' do
       order = Order.new(name: 'Test', type: 'Clone', address: '13 March')
       order_dup = order.dual_copy
