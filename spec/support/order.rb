@@ -1,3 +1,4 @@
+require 'byebug'
 class Order
   include Dual
   attr_accessor :name, :type, :address
@@ -6,5 +7,12 @@ class Order
     @name = params[:name]
     @type = params[:type]
     @address = params[:address]
+  end
+  dual {}
+end
+
+class ExcludedOrder < Order
+  dual do
+    excludes :address
   end
 end

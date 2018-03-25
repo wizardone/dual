@@ -1,18 +1,23 @@
 require 'dual/version'
 require 'dual/configuration_methods'
-require 'byebug'
+
 module Dual
 
   def self.included(base)
-    @config = Configuration.new(base)
+    base.extend ClassMethods
   end
 
-  def dual(&block)
-    @config.instance_eval(&block)
+  module ClassMethods
+    def dual(&block)
+      raise 'Configuration block required' unless block_given?
+      @config = Configuration.new(self)
+      @config.instance_eval(&block)
+    end
   end
 
   def dual_copy
-    dup
+    object = dup
+    object
   end
 
   class Configuration
