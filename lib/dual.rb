@@ -21,12 +21,13 @@ module Dual
     attr_reader :object,
                 :excluded,
                 :included,
-                :association
+                :associations
 
     def initialize(object)
       @object = object
       @included = []
       @excluded = []
+      @associations = []
     end
   end
 end

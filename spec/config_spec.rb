@@ -16,4 +16,12 @@ RSpec.describe Dual::Configuration do
       expect(subject.included).to eq([:name, :type])
     end
   end
+
+  describe '#add_association' do
+    it 'adds associations to be included' do
+      subject.add_association(:address1, :address2)
+
+      expect(subject.associations).to eq([:address1, :address2])
+    end
+  end
 end
