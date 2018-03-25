@@ -19,11 +19,14 @@ module Dual
     include ConfigurationMethods
 
     attr_reader :object,
-                :excludes,
-                :includes,
+                :excluded,
+                :included,
                 :association
+
     def initialize(object)
       @object = object
+      @included = []
+      @excluded = []
     end
   end
 end

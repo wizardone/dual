@@ -2,11 +2,11 @@ module Dual
   module ConfigurationMethods
 
     def excludes(*properties)
-      properties.each { |prop| excludes << prop }
+      properties.each { |prop| excluded << prop }
     end
 
     def includes(*properties)
-      properties.each { |prop| includes << prop}
+      properties.each { |prop| included << prop}
     end
   end
 end

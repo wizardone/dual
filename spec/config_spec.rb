@@ -5,7 +5,7 @@ RSpec.describe Dual::Configuration do
     it 'adds properties to be excluded' do
       subject.excludes(:name, :type)
 
-      expect(subject.excludes).to eq([:name, :type])
+      expect(subject.excluded).to eq([:name, :type])
     end
   end
 
@@ -13,7 +13,7 @@ RSpec.describe Dual::Configuration do
     it 'adds properties to be included' do
       subject.includes(:name, :type)
 
-      expect(subject.includes).to eq([:name, :type])
+      expect(subject.included).to eq([:name, :type])
     end
   end
 end
