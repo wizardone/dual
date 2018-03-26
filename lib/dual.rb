@@ -11,12 +11,19 @@ module Dual
   module ClassMethods
     def dual(&block)
       raise 'Configuration block required' unless block_given?
-      @config = Configuration.new(self)
-      @config.instance_eval(&block)
+
+      @dual_config = Configuration.new(self)
+      @dual_config.instance_eval(&block)
+    end
+
+    def dual_config
+      @dual_config
     end
   end
 
   def dual_copy
+    # Need access to config object
+    config = self.class.dual_config
     object = dup
     object
   end
