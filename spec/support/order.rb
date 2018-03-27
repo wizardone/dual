@@ -1,4 +1,3 @@
-require 'byebug'
 class Order
   include Dual
   attr_accessor :name, :type, :address

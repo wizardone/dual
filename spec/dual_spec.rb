@@ -26,7 +26,7 @@ RSpec.describe Dual do
       expect(order_dup.address).to eq order.address
     end
 
-    it 'dial copies an object excluding some properties' do
+    it 'dual copies an object excluding some properties' do
       order = ExcludedOrder.new(name: 'Test', type: 'Clone', address: '13 March')
       order_dup = order.dual_copy
 

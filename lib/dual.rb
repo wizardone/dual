@@ -1,10 +1,9 @@
 require 'dual/version'
 require 'dual/configuration_methods'
-
+require 'byebug'
 module Dual
 
   def self.included(base)
-    # Set an instance variable in the base class to hold the config?
     base.extend ClassMethods
   end
 
@@ -22,9 +21,12 @@ module Dual
   end
 
   def dual_copy
-    # Need access to config object
     config = self.class.dual_config
+    # dup or clone, strategy maybe?
     object = dup
+    config.excluded.each do |attribute|
+      object.public_send("#{attribute}=", nil)
+    end
     object
   end
 
