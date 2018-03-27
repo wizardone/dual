@@ -27,6 +27,11 @@ module Dual
     config.excluded.each do |attribute|
       object.public_send("#{attribute}=", nil)
     end
+
+    config.included.each do |attribute|
+      object.class.attr_accessor attribute[:property]
+      object.public_send("#{attribute[:property]}=", attribute[:value])
+    end
     object
   end
 

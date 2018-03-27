@@ -34,5 +34,14 @@ RSpec.describe Dual do
       expect(order_dup.type).to eq order.type
       expect(order_dup.address).to eq nil
     end
+
+    it 'dual copies an object including some new properties' do
+      order = IncludedOrder.new(name: 'Test', type: 'Clone', address: '13 March')
+      order_dup = order.dual_copy
+
+      expect(order_dup.name).to eq order.name
+      expect(order_dup.type).to eq order.type
+      expect(order_dup.quantity).to eq 8
+    end
   end
 end

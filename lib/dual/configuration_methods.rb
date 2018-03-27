@@ -5,8 +5,8 @@ module Dual
       properties.each { |prop| excluded << prop }
     end
 
-    def includes(*properties)
-      properties.each { |prop| included << prop}
+    def includes(property, value:)
+      included << { property: property, value: value }
     end
 
     def add_association(*properties)

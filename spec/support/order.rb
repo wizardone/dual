@@ -15,3 +15,9 @@ class ExcludedOrder < Order
     excludes :address
   end
 end
+
+class IncludedOrder < Order
+  dual do
+    includes :quantity, value: 8
+  end
+end
