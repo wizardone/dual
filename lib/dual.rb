@@ -21,18 +21,27 @@ module Dual
   end
 
   def dual_copy
-    config = self.class.dual_config
     # dup or clone, strategy maybe?
-    object = dup
-    config.excluded.each do |attribute|
+    dual_object = dup
+    add_excluded(dual_object)
+    add_included(dual_object)
+
+    dual_object
+  end
+
+  private
+
+  def add_excluded(object)
+    self.class.dual_config.excluded.each do |attribute|
       object.public_send("#{attribute}=", nil)
     end
+  end
 
-    config.included.each do |attribute|
+  def add_included(object)
+    self.class.dual_config.included.each do |attribute|
       object.class.attr_accessor attribute[:property]
       object.public_send("#{attribute[:property]}=", attribute[:value])
     end
-    object
   end
 
   class Configuration
