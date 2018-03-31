@@ -1,5 +1,6 @@
 require 'dual/version'
 require 'dual/configuration_methods'
+require 'dual/runner'
 require 'byebug'
 module Dual
 
@@ -23,25 +24,7 @@ module Dual
   def dual_copy
     # dup or clone, strategy maybe?
     dual_object = dup
-    add_excluded(dual_object)
-    add_included(dual_object)
-
-    dual_object
-  end
-
-  private
-
-  def add_excluded(object)
-    self.class.dual_config.excluded.each do |attribute|
-      object.public_send("#{attribute}=", nil)
-    end
-  end
-
-  def add_included(object)
-    self.class.dual_config.included.each do |attribute|
-      object.class.attr_accessor attribute[:property]
-      object.public_send("#{attribute[:property]}=", attribute[:value])
-    end
+    Dual::Runner.(dual_object, self.class.dual_config)
   end
 
   class Configuration
