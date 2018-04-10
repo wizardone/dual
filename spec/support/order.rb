@@ -16,6 +16,16 @@ class ExcludedOrder < Order
   end
 end
 
+class ExcludedOrderIf < Order
+  dual do
+    excludes :address, if: :address_available?
+  end
+
+  def address_available?
+    false
+  end
+end
+
 class IncludedOrder < Order
   dual do
     includes :quantity, value: 8

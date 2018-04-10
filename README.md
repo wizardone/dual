@@ -22,6 +22,7 @@ Or install it yourself as:
 ## Usage
 class Order
   attr_accessor :name, :type, :address
+
   include Dual
 
   dual do
@@ -30,7 +31,7 @@ class Order
     # Include a new attribute in the cloned object
     include :email
     # Add a guard clause for both include and exclude statements
-    include :date, if: :delivery_incoming?
+    include :date, value: Date.today, if: :delivery_incoming?
   end
 
   def delivery_incoming?

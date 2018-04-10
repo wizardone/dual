@@ -43,5 +43,14 @@ RSpec.describe Dual do
       expect(order_dup.type).to eq order.type
       expect(order_dup.quantity).to eq 8
     end
+
+    it 'dual copies an object excluding some properties if a condition is met' do
+      order = ExcludedOrderIf.new(name: 'Test', type: 'Clone', address: '13 March')
+      order_dup = order.dual_copy
+
+      expect(order_dup.name).to eq order.name
+      expect(order_dup.type).to eq order.type
+      expect(order_dup.address).to eq order.address
+    end
   end
 end
