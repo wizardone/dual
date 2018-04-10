@@ -25,7 +25,16 @@ class Order
   include Dual
 
   dual do
+    # Exclude a certain attribute from the cloned object
     exclude :type
+    # Include a new attribute in the cloned object
+    include :email
+    # Add a guard clause for both include and exclude statements
+    include :date, if: :delivery_incoming?
+  end
+
+  def delivery_incoming?
+    delivery.today?
   end
 end
 
