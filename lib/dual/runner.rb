@@ -4,14 +4,14 @@ module Dual
     attr_reader :dual_object, :dual_config
 
     class << self
-      def call(dual_object, dual_config)
-        new(dual_object, dual_config).perform
+      def call(dual_config)
+        new(dual_config).perform
       end
     end
 
-    def initialize(dual_object, dual_config)
-      @dual_object = dual_object
+    def initialize(dual_config)
       @dual_config = dual_config
+      @dual_object = dual_config.dual_object
     end
 
     def perform

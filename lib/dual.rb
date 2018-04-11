@@ -12,31 +12,37 @@ module Dual
     def dual(&block)
       raise 'Configuration block required' unless block_given?
 
-      @dual_config = Configuration.new(self)
-      @dual_config.instance_eval(&block)
+      @dual_config = Configuration.new
+      @dual_config_block = block
     end
 
     def dual_config
       @dual_config
     end
+
+    def dual_config_block
+      @dual_config_block
+    end
   end
 
   def dual_copy
     # dup or clone, strategy maybe?
-    dual_object = dup
-    Dual::Runner.(dual_object, self.class.dual_config)
+    dual_config = self.class.dual_config
+    dual_config.dual_object = dup
+    dual_config.instance_eval(&self.class.dual_config_block)
+
+    Dual::Runner.(dual_config)
   end
 
   class Configuration
     include ConfigurationMethods
 
-    attr_reader :object,
-                :excluded,
+    attr_reader :excluded,
                 :included,
                 :associations
+    attr_accessor :dual_object
 
-    def initialize(object)
-      @object = object
+    def initialize
       @included = []
       @excluded = []
       @associations = []

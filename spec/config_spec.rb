@@ -1,5 +1,5 @@
 RSpec.describe Dual::Configuration do
-  subject { described_class.new(Object.new) }
+  subject { described_class.new }
 
   describe '#excludes' do
     it 'adds properties to be excluded' do
