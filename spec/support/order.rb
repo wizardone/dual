@@ -31,3 +31,13 @@ class IncludedOrder < Order
     includes :quantity, value: 8
   end
 end
+
+class IncludedOrderIf < Order
+  dual do
+    includes :quantity, value: 8, if: :quantity_available?
+  end
+
+  def quantity_available?
+    false
+  end
+end
