@@ -29,7 +29,7 @@ class Order
     # Exclude a certain attribute from the cloned object
     exclude :type
     # Include a new attribute in the cloned object
-    include :email
+    include :email, value: 'test@test.com'
     # Add a guard clause for both include and exclude statements
     include :date, value: Date.today, if: :delivery_incoming?
   end
