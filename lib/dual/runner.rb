@@ -17,11 +17,18 @@ module Dual
     def perform
       add_excluded
       add_included
+      add_finalization
 
       dual_object
     end
 
     private
+
+    def add_finalization
+      if dual_config.finalization
+        dual_config.finalization.call(dual_object)
+      end
+    end
 
     def add_excluded
       dual_config.excluded.each do |attribute|

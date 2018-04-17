@@ -28,10 +28,16 @@ class Order
   dual do
     # Exclude a certain attribute from the cloned object
     exclude :type
+
     # Include a new attribute in the cloned object
     include :email, value: 'test@test.com'
+
     # Add a guard clause for both include and exclude statements
     include :date, value: Date.today, if: :delivery_incoming?
+
+    # Perform any kind of finalizing actions on the created object
+    # The callable object receives the dual object
+    finalize -> (copied_order) { EventNotifier.call(copied_order) }
   end
 
   def delivery_incoming?

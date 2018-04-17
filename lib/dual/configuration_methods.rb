@@ -14,5 +14,9 @@ module Dual
     def add_association(*properties)
       properties.each { |prop| associations << prop }
     end
+
+    def finalize(&lambda)
+      @finalization = lambda
+    end
   end
 end

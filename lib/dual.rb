@@ -40,7 +40,7 @@ module Dual
     attr_reader :excluded,
                 :included,
                 :associations
-    attr_accessor :dual_object
+    attr_accessor :dual_object, :finalization
 
     def initialize
       @included = []
