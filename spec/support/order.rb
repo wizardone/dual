@@ -41,3 +41,9 @@ class IncludedOrderIf < Order
     false
   end
 end
+
+class OrderFinalization < Order
+  dual do
+    finalize -> (order) {  order.name = "Been finalized" }
+  end
+end

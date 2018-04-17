@@ -36,7 +36,8 @@ class Order
     include :date, value: Date.today, if: :delivery_incoming?
 
     # Perform any kind of finalizing actions on the created object
-    # The callable object receives the dual object
+    # The callable object(any object that responds to `call`) receives
+    # the dual object
     finalize -> (copied_order) { EventNotifier.call(copied_order) }
   end
 

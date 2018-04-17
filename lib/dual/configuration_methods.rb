@@ -15,7 +15,8 @@ module Dual
       properties.each { |prop| associations << prop }
     end
 
-    def finalize(&lambda)
+    def finalize(lambda)
+      return unless lambda.respond_to?(:call)
       @finalization = lambda
     end
   end
