@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'sequel'
 require 'dual'
 
 Dir[File.join(File.expand_path(__dir__), 'support', '**', '*.rb')].each { |file| require file }
@@ -14,3 +15,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+DB = Sequel.connect('sqlite://dual')
