@@ -14,6 +14,8 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
-end
 
-DB = Sequel.connect('sqlite://dual')
+  config.after(:suite) do
+    DB.disconnect
+  end
+end
