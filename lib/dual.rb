@@ -28,6 +28,9 @@ module Dual
   def dual_copy
     # dup or clone, strategy maybe?
     dual_config = self.class.dual_config
+    # What to do in case of missing dual config? Raise error?
+    return dup unless dual_config
+
     dual_config.dual_object = dup
     dual_config.instance_eval(&self.class.dual_config_block)
 

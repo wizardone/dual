@@ -77,11 +77,24 @@ RSpec.describe Dual do
           order_dup.quantity
         }.to raise_error(NoMethodError)
       end
+
+      it 'performs an ordinary dup if there is no configuration' do
+        klass = Class.new do
+          include Dual
+          dual {}
+        end.new
+        expect(klass).to receive(:dup)
+
+        klass.dual_copy
+      end
     end
 
     context 'sequel' do
       it 'copies associations' do
-        expect(Item).to be_a(Sequel::Model)
+        cart = ShoppingCart.create(client: 'Test', total_price: 50.0)
+        cart_dup = cart.dual_copy
+        #byebug
+        #expect(cart_dup).to be_a(Class)
       end
     end
   end
