@@ -17,6 +17,7 @@ module Dual
 
     def finalize(lambda)
       return unless lambda.respond_to?(:call)
+
       @finalization = lambda
     end
   end

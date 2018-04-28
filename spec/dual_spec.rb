@@ -90,11 +90,22 @@ RSpec.describe Dual do
     end
 
     context 'sequel' do
-      it 'copies associations' do
+      it 'dual copies a sequel model' do
         cart = ShoppingCart.create(client: 'Test', total_price: 50.0)
         cart_dup = cart.dual_copy
-        #byebug
-        #expect(cart_dup).to be_a(Class)
+
+        expect(cart_dup.client).to eq 'Test'
+        expect(cart_dup.total_price).to eq 50.0
+      end
+
+      it 'dual copies a sequel model with one to many relation' do
+        item = ShoppingItem.create(name: 'Test', price: 10)
+        cart = ShoppingCart.create(client: 'Stefan')
+        cart.shopping_items << item
+        cart_dup = cart.dual_copy
+
+        expect(cart_dup.shopping_items).to be_a(Array)
+        expect(cart_dup.items_price).to eq item.price
       end
     end
   end

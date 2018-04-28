@@ -17,6 +17,7 @@ module Dual
     def perform
       add_excluded
       add_included
+      add_associations
       add_finalization
 
       dual_object
@@ -41,6 +42,10 @@ module Dual
         dual_object.class.attr_accessor attribute[:property]
         dual_object.public_send("#{attribute[:property]}=", attribute[:value])
       end
+    end
+
+    def add_associations
+
     end
   end
 end
