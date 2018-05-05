@@ -12,7 +12,11 @@ module Dual
     end
 
     def add_association(*properties)
-      properties.each { |prop| associations << prop }
+      properties.each { |prop| included_associations << prop }
+    end
+
+    def remove_association(*properties)
+      properties.each { |prop| excluded_associations << prop}
     end
 
     def finalize(lambda)

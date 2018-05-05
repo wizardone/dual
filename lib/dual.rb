@@ -42,13 +42,15 @@ module Dual
 
     attr_reader :excluded,
                 :included,
-                :associations
+                :included_associations,
+                :excluded_associations
     attr_accessor :dual_object, :finalization
 
     def initialize
       @included = []
       @excluded = []
-      @associations = []
+      @included_associations = []
+      @excluded_associations = []
     end
   end
 end
