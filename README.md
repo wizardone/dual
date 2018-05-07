@@ -21,6 +21,7 @@ Or install it yourself as:
 
 ## Usage
 class Order
+```ruby
   attr_accessor :name, :type, :address
 
   include Dual
@@ -34,7 +35,7 @@ class Order
 
     # Add a guard clause for both include and exclude statements
     include :date, value: Date.today, if: :delivery_incoming?
-
+    
     # Perform any kind of finalizing actions on the created object
     # The callable object(any object that responds to `call`) receives
     # the dual object
@@ -48,6 +49,33 @@ end
 
 order = Order.last
 dual_order = order.dual_copy
+```
+
+If you are using sequel you can also use dual to manipulate associations:
+
+```ruby
+  class Order < Sequel::Model
+    many_to_one :user
+    include Dual
+
+    dual do
+      add_association :user
+    end
+  end
+```
+
+In this way you will end up having a new users collection loaded for the cloned object:
+
+```ruby
+order = Order.create
+order.user = User.create(email: 'test@test.com')
+
+User.count
+=> 1
+cloned_order = order.dual_copy
+User.count
+=> 2
+```
 
 ## Development
 
