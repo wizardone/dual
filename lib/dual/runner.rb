@@ -15,8 +15,8 @@ module Dual
     end
 
     def perform
-      add_excluded
-      add_included
+      add_excluded_methods
+      add_included_methods
       add_associations
       add_finalization
 
@@ -31,13 +31,13 @@ module Dual
       end
     end
 
-    def add_excluded
+    def add_excluded_methods
       dual_config.excluded.each do |attribute|
         dual_object.public_send("#{attribute}=", nil)
       end
     end
 
-    def add_included
+    def add_included_methods
       dual_config.included.each do |attribute|
         dual_object.class.attr_accessor attribute[:property]
         dual_object.public_send("#{attribute[:property]}=", attribute[:value])
@@ -45,6 +45,11 @@ module Dual
     end
 
     def add_associations
+      #add_included_associations
+      add_excluded_associations
+    end
+
+    def add_excluded_associations
 
     end
   end

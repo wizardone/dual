@@ -13,7 +13,7 @@ RSpec.describe Dual::Configuration do
     it 'adds properties to be included' do
       subject.includes(:name, value: 'Stefan')
 
-      expect(subject.included).to match_array([{property: :name, value: 'Stefan'}])
+      expect(subject.included).to match_array([{ property: :name, value: 'Stefan' }])
     end
   end
 
