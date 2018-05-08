@@ -1,7 +1,9 @@
 module Dual
   class Runner
 
-    attr_reader :dual_object, :dual_config
+    attr_reader :original_object,
+                :dual_object,
+                :dual_config
 
     class << self
       def call(dual_config)
@@ -12,6 +14,7 @@ module Dual
     def initialize(dual_config)
       @dual_config = dual_config
       @dual_object = dual_config.dual_object
+      @original_object = dual_config.original_object
     end
 
     def perform
@@ -45,8 +48,14 @@ module Dual
     end
 
     def add_associations
-      #add_included_associations
+      add_included_associations
       add_excluded_associations
+    end
+
+    def add_included_associations
+      dual_config.included_associations.each do |association|
+        next unless dual_object.class.associations.include?(association.to_sym)
+      end
     end
 
     def add_excluded_associations

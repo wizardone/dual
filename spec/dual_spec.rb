@@ -103,9 +103,8 @@ RSpec.describe Dual do
         cart = ShoppingCart.create(client: 'Stefan')
         cart.shopping_items << item
         cart_dup = cart.dual_copy
-        byebug
-        expect(cart_dup.shopping_items).to match_array item
-        expect(cart_dup.items_price).to eq item.price
+
+        expect(ShoppingItem.count).to eq 2
       end
 
       it 'excludes a one to many association from the copied object' do
