@@ -98,17 +98,25 @@ RSpec.describe Dual do
         expect(cart_dup.total_price).to eq 50.0
       end
 
-      it 'dual copies a sequel model with one to many relation' do
-        item = ShoppingItem.create(name: 'Test', price: 10)
-        cart = ShoppingCart.create(client: 'Stefan')
-        cart.shopping_items << item
-        cart_dup = cart.dual_copy
+      it 'dual copies a sequel model with one to one relation' do
+        user = User.create(email: 'test@test.com')
+        user.contact = Contact.create(address: 'Test 24')
 
-        expect(ShoppingItem.count).to eq 2
+        dupped = user.dual_copy
+        byebug
+        expect(dupped.contact).to eq user.contact
+        
+        dupped.contact.address = 'WAT'
+        dupped.contact.save
+
+        expect(user.contact.address).not_to eq(dupped.contact.address)
       end
 
-      it 'excludes a one to many association from the copied object' do
-
+      it 'dual copies a sequel model with one to many relation' do
+       # item = ShoppingItem.create(name: 'Test', price: 10)
+       # cart = ShoppingCart.create(client: 'Stefan')
+       # cart.shopping_items << item
+       # cart_dup = cart.dual_copy
       end
     end
   end

@@ -20,8 +20,8 @@ Or install it yourself as:
     $ gem install dual
 
 ## Usage
-class Order
 ```ruby
+class Order
   attr_accessor :name, :type, :address
 
   include Dual

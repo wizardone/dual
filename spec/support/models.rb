@@ -21,6 +21,12 @@ DB.create_table :users do
   String :email
 end
 
+DB.create_table :contacts do
+  primary_key :id
+  Integer :user_id
+  String :address
+end
+
 
 class ShoppingItem < Sequel::Model
   include Dual
@@ -43,4 +49,14 @@ end
 class User < Sequel::Model
   include Dual
   one_to_many :shopping_carts
+  one_to_one :contact
+
+  dual do
+    add_association :contact
+  end
+end
+
+class Contact < Sequel::Model
+  include Dual
+  one_to_one :user
 end

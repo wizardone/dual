@@ -18,6 +18,10 @@ module Dual
     end
 
     def perform
+      # Consider doing something like:
+      # [Dual::Excluded, Dual::Included, Dual::Associations, Dual::Finalization].each { |klass| klass.run }
+      # rescue Dual::RunnerException
+      # puts "Duplicating process halted at: ....#{e.error}"
       add_excluded_methods
       add_included_methods
       add_associations
@@ -55,6 +59,10 @@ module Dual
     def add_included_associations
       dual_config.included_associations.each do |association|
         next unless dual_object.class.associations.include?(association.to_sym)
+        #dupped_assoc = original_object.public_send(association).dup
+        #dual_object.public_send("#{association}=", dupped_assoc)
+        dupped_assoc = original_object.contact.dup
+        dual_object.contact = dupped_assoc
       end
     end
 
