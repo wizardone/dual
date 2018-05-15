@@ -59,10 +59,12 @@ module Dual
     def add_included_associations
       dual_config.included_associations.each do |association|
         next unless dual_object.class.associations.include?(association.to_sym)
-        #dupped_assoc = original_object.public_send(association).dup
-        #dual_object.public_send("#{association}=", dupped_assoc)
-        dupped_assoc = original_object.contact.dup
-        dual_object.contact = dupped_assoc
+          dupped_assoc = original_object.public_send(association).dup
+          # sequal validation probably? The object is stored in the db
+          # and it seems you cannot duplicate it and reassign it again?
+          # It works if you do: Contact.create(address: 'KUR')
+          dual_object.public_send("#{association}=", nil)
+          dual_object.public_send("#{association}=", dupped_assoc)
       end
     end
 

@@ -103,7 +103,7 @@ RSpec.describe Dual do
         user.contact = Contact.create(address: 'Test 24')
 
         dupped = user.dual_copy
-        byebug
+        #byebug
         expect(dupped.contact).to eq user.contact
         
         dupped.contact.address = 'WAT'
