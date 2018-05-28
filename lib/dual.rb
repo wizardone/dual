@@ -1,6 +1,9 @@
 require 'dual/version'
 require 'dual/configuration_methods'
 require 'dual/configuration'
+require 'dual/associations/base'
+require 'dual/associations/one_to_one'
+require 'dual/associations/one_to_many'
 require 'dual/runner'
 require 'byebug'
 module Dual

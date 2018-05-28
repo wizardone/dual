@@ -5,9 +5,12 @@ module Dual
       ALLOWED = %w[
         one_to_one
         one_to_many
-      ]
-      def initialize
+      ].freeze
 
+      attr_reader :dual_object, :original_object
+
+      def initialize
+        raise NotImplementedError
       end
     end
   end
