@@ -7,10 +7,12 @@ module Dual
         one_to_many
       ].freeze
 
-      attr_reader :dual_object, :original_object
+      attr_reader :dual_object, :original_object, :association_name
 
-      def initialize
-        raise NotImplementedError
+      def initialize(original_object, dual_object, association_name)
+        @original_object = original_object
+        @dual_object = dual_object
+        @association_name = association_name
       end
     end
   end

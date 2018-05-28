@@ -62,14 +62,9 @@ module Dual
         # TODO: Can this be shorter?
         type = dual_object.class.association_reflection(association).class.name.split('::').last.split('Association').first
 
-        Object.const_get("Dual::Associations::#{type}").new(dual_object, association)
-        dupped_assoc = original_object.public_send(association).dup
-
-        # sequal validation probably? The object is stored in the db
-        # and it seems you cannot duplicate it and reassign it again?
-        # It works if you do: Contact.create(address: 'KUR')
-        dual_object.public_send("#{association}=", nil)
-        dual_object.public_send("#{association}=", dupped_assoc)
+        Object.const_get("Dual::Associations::#{type}")
+          .new(original_object, dual_object, association)
+          .run
       end
     end
 

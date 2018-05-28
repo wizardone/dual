@@ -2,8 +2,8 @@ module Dual
   module Associations
     class OneToMany < Base
 
-      def initialize(dual_object, name)
-        puts 'working on one to many'
+      def run
+        puts 'running'
       end
     end
   end
