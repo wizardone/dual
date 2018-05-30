@@ -106,19 +106,18 @@ RSpec.describe Dual do
       end
 
       it 'dual copies a sequel model with one to many relation' do
-        skip
         item = ShoppingItem.create(name: 'Test', price: 10)
         cart = ShoppingCart.create(client: 'Stefan')
 
         cart.shopping_items << item
         cart_dup = cart.dual_copy
 
-        expect(cart.shopping_items).to eq(cart_dup.shopping_items)
+        expect(cart.shopping_items.count).to eq(cart_dup.shopping_items.count)
         item = cart.shopping_items.first
         item.name = 'New Test'
-        #item.save
+        item.save
 
-        expect(cart.shopping_items).not_to eq(cart_dup.shopping_items)
+        expect(cart.shopping_items.first.name).not_to eq(cart_dup.shopping_items.first.name)
       end
     end
   end

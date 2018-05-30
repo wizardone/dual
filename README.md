@@ -51,30 +51,29 @@ order = Order.last
 dual_order = order.dual_copy
 ```
 
-If you are using sequel you can also use dual to manipulate associations:
+If you are using sequel you can also use dual to manipulate associations, supported ones are:
+`one_to_one`, `one_to_many`, `many_to_one`
 
 ```ruby
-  class Order < Sequel::Model
-    many_to_one :user
+  class User < Sequel::Model
+    one_to_many :orders
     include Dual
 
     dual do
-      add_association :user
+      add_association :orders
     end
   end
 ```
 
-In this way you will end up having a new users collection loaded for the cloned object:
+For `one_to_many` associations, due to how `sequel` works with collections (`add_#{association_name}`) you need to specify the singular
+form of the association, if it cannot be automatically detected.
 
 ```ruby
-order = Order.create
-order.user = User.create(email: 'test@test.com')
+# Works just fine, singular is order
+one_to_many :orders
 
-User.count
-=> 1
-cloned_order = order.dual_copy
-User.count
-=> 2
+# Does not work, have to specify the singular key
+one_to_many :people, singular: :person
 ```
 
 ## Development
