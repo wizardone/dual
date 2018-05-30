@@ -30,16 +30,21 @@ end
 
 class ShoppingItem < Sequel::Model
   include Dual
+  dual do
+    add_association :shopping_carts
+  end
+
   many_to_one :shopping_carts
 end
 
 class ShoppingCart < Sequel::Model
   include Dual
   dual do
-    add_association :shopping_items
+    add_association :shopping_items, :user
   end
 
   one_to_many :shopping_items
+  many_to_one :user
 
   def items_price
     shopping_items.sum(&:price)

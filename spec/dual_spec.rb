@@ -119,6 +119,20 @@ RSpec.describe Dual do
 
         expect(cart.shopping_items.first.name).not_to eq(cart_dup.shopping_items.first.name)
       end
+
+      it 'dual copies a sequel model with many to one relation' do
+        user = User.create(email: 'test@test.com')
+        cart = ShoppingCart.create(client: 'Stefan')
+        cart.user = user
+
+        dupped = cart.dual_copy
+
+        expect(cart.user).to eq(dupped.user)
+        dupped.user.email = "foo@bar.com"
+        dupped.user.save
+
+        expect(cart.user.email).not_to eq(dupped.user.email)
+      end
     end
   end
 end
