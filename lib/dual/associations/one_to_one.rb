@@ -3,6 +3,7 @@ module Dual
     class OneToOne < Base
 
       def run
+        association_name = association_reflection[:name]
         dupped_assoc = original_object.public_send(association_name).dup
 
         # sequal validation probably? The object is stored in the db

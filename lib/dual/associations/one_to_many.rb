@@ -5,11 +5,17 @@ module Dual
       def run
         # TODO: We probably need to duplicate each of the elements in the 
         # collection, not the collection(array) itself
-        #dupped_assoc = original_object.public_send(association_name).dup
+        association_name = association_reflection[:name]
         dual_object.public_send("remove_all_#{association_name}")
         original_object.public_send(association_name).each do |association|
           dup_association = association.dup
-          dual_object.public_send("add_#{singularize(association_name)}", dup_association)
+          if dual_object.respond_to?("add_#{singularize(association_name)}")
+            dual_object.public_send("add_#{singularize(association_name)}", dup_association)
+          else
+            # ungessable association name, use the class name?
+            association_name = association_reflection[:class_name].to_s.downcase
+            dual_object.public_send("add_#{association_name}", dup_association)
+          end
         end
       end
 

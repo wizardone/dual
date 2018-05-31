@@ -133,6 +133,15 @@ RSpec.describe Dual do
 
         expect(cart.user.email).not_to eq(dupped.user.email)
       end
+
+      it 'dual copies a sequel model with an ungessable association name' do
+        person = Person.create(name: 'Test')
+        contact = Contact.create(address: 'foobar')
+        contact.people << person
+
+        dupped = contact.dual_copy
+
+      end
     end
   end
 end

@@ -27,24 +27,29 @@ DB.create_table :contacts do
   String :address
 end
 
+DB.create_table :people do
+  primary_key :id
+  Integer :contact_id
+  String :name
+end
 
 class ShoppingItem < Sequel::Model
   include Dual
+  many_to_one :shopping_carts
+
   dual do
     add_association :shopping_carts
   end
-
-  many_to_one :shopping_carts
 end
 
 class ShoppingCart < Sequel::Model
   include Dual
+  one_to_many :shopping_items
+  many_to_one :user
+
   dual do
     add_association :shopping_items, :user
   end
-
-  one_to_many :shopping_items
-  many_to_one :user
 
   def items_price
     shopping_items.sum(&:price)
@@ -64,4 +69,14 @@ end
 class Contact < Sequel::Model
   include Dual
   one_to_one :user
+  one_to_many :people, class: 'Person'
+
+  dual do
+    add_association :people
+  end
+end
+
+class Person < Sequel::Model
+  include Dual
+  many_to_one :contact
 end

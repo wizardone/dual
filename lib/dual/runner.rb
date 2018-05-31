@@ -60,10 +60,12 @@ module Dual
       dual_config.included_associations.each do |association|
         next unless dual_object.class.associations.include?(association.to_sym)
         # TODO: Can this be shorter?
-        type = dual_object.class.association_reflection(association).class.name.split('::').last.split('Association').first
-
+        # reflection[:type]
+        # reflection[:class_name]
+        reflection = dual_object.class.association_reflection(association)
+        type = reflection.class.name.split('::').last.split('Association').first
         Object.const_get("Dual::Associations::#{type}")
-          .new(original_object, dual_object, association)
+          .new(original_object, dual_object, reflection)
           .run
       end
     end
