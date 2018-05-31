@@ -1,9 +1,8 @@
 module Dual
   class Runner
-
     attr_reader :original_object,
-                :dual_object,
-                :dual_config
+      :dual_object,
+      :dual_config
 
     class << self
       def call(dual_config)
@@ -33,9 +32,9 @@ module Dual
     private
 
     def add_finalization
-      if dual_config.finalization
-        dual_config.finalization.call(dual_object)
-      end
+      return unless dual_config.finalization
+
+      dual_config.finalization.call(dual_object)
     end
 
     def add_excluded_methods
@@ -59,23 +58,30 @@ module Dual
     def add_included_associations
       dual_config.included_associations.each do |association|
         next unless dual_object.class.associations.include?(association.to_sym)
-        # TODO: Can this be shorter?
-        # reflection[:class_name]
+
         reflection = dual_object.class.association_reflection(association)
-        type = reflection[:type]
-          .to_s
-          .gsub(/one/, 'One')
-          .gsub(/to/, 'To')
-          .gsub(/many/, 'Many')
-          .gsub(/_/, '')
-        Object.const_get("Dual::Associations::#{type}")
-          .new(original_object, dual_object, reflection)
-          .run
+        association_type = extract_association(reflection[:type])
+
+        copy_association(association_type, reflection)
       end
     end
 
-    def add_excluded_associations
+    def copy_association(association_type, reflection)
+      Object
+        .const_get("Dual::Associations::#{association_type}")
+        .new(original_object, dual_object, reflection)
+        .run
+    end
 
+    def add_excluded_associations; end
+
+    def extract_association(type)
+      type
+        .to_s
+        .gsub(/one/, 'One')
+        .gsub(/to/, 'To')
+        .gsub(/many/, 'Many')
+        .gsub(/_/, '')
     end
   end
 end
