@@ -37,6 +37,6 @@ module Dual
     dual_config.apply_objects(self)
     dual_config.apply_config(&self.class.config_block)
 
-    Dual::Runner.(dual_config)
+    Dual::Runner.call(dual_config)
   end
 end

@@ -2,10 +2,8 @@ module Dual
   module Associations
     class OneToMany < Base
 
-      def run
-        # TODO: We probably need to duplicate each of the elements in the 
-        # collection, not the collection(array) itself
-        association_name = association_reflection[:name]
+      def copy
+        # TODO: Rework all the dynamic method invokations
         dual_object.public_send("remove_all_#{association_name}")
         original_object.public_send(association_name).each do |association|
           dup_association = association.dup
@@ -17,6 +15,10 @@ module Dual
             dual_object.public_send("add_#{association_name}", dup_association)
           end
         end
+      end
+
+      def remove
+        dual_object.public_send("remove_all_#{association_name}")
       end
 
       private

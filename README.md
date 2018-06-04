@@ -51,7 +51,7 @@ order = Order.last
 dual_order = order.dual_copy
 ```
 
-If you are using sequel you can also use dual to manipulate associations, supported ones are:
+If you are using `Sequel` you can also use dual to manipulate associations, supported ones are:
 `one_to_one`, `one_to_many`, `many_to_one`
 
 ```ruby
@@ -64,18 +64,38 @@ If you are using sequel you can also use dual to manipulate associations, suppor
     end
   end
 ```
-
-For `one_to_many` associations, due to how `sequel` works with collections (`add_#{association_name}`) you need to specify the singular
-form of the association, if it cannot be automatically detected.
-
+This will create association objects that do not point to the original associations. A simple example would be:
 ```ruby
-# Works just fine, singular is order
-one_to_many :orders
+user = User.create
+order = Order.create(address: 'some street')
+user.add_order(order)
 
-# Does not work, have to specify the singular key
-one_to_many :people, singular: :person
+# Duplicate the user, along with the orders association
+dupped_user = user.dual_copy
+dupped_order = dupped_user.orders.first
+# Change the order address
+dupped_order.address = 'new street'
+
+order.address == dupped_order.address
+=> false
 ```
 
+You can also remove certain associations:
+```ruby
+  dual do
+    remove_association :orders
+  end
+```
+```ruby
+user = User.create
+order = Order.create(address: 'some street')
+user.add_order(order)
+
+# Duplicate the user, excluding the orders association
+dupped_user = user.dual_copy
+dupped_user.orders
+=> []
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

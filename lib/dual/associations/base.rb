@@ -15,6 +15,20 @@ module Dual
         @dual_object = dual_object
         @association_reflection = association_reflection
       end
+
+      def copy
+        raise NotImplementedError
+      end
+
+      def remove
+        raise NotImplementedError
+      end
+
+      protected
+
+      def association_name
+        association_reflection[:name]
+      end
     end
   end
 end

@@ -1,8 +1,8 @@
 module Dual
   class Runner
     attr_reader :original_object,
-      :dual_object,
-      :dual_config
+                :dual_object,
+                :dual_config
 
     class << self
       def call(dual_config)
@@ -62,18 +62,27 @@ module Dual
         reflection = dual_object.class.association_reflection(association)
         association_type = extract_association(reflection[:type])
 
-        copy_association(association_type, reflection)
+        act_on_association(association_type, reflection, action: :copy)
       end
     end
 
-    def copy_association(association_type, reflection)
+    def add_excluded_associations
+      dual_config.excluded_associations.each do |association|
+        next unless dual_object.class.associations.include?(association.to_sym)
+
+        reflection = dual_object.class.association_reflection(association)
+        association_type = extract_association(reflection[:type])
+
+        act_on_association(association_type, reflection, action: :remove)
+      end
+    end
+
+    def act_on_association(association_type, reflection, action:)
       Object
         .const_get("Dual::Associations::#{association_type}")
         .new(original_object, dual_object, reflection)
-        .run
+        .public_send(action)
     end
-
-    def add_excluded_associations; end
 
     def extract_association(type)
       type
