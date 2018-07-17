@@ -141,6 +141,7 @@ RSpec.describe Dual do
 
         dupped = contact.dual_copy
 
+        expect(contact.people.first).not_to eq(dupped.people.first)
       end
     end
   end
